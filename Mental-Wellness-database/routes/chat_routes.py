@@ -1,10 +1,14 @@
-# backend/routes/chat_routes.py
+# routes/chat_routes.py
+import traceback
 from flask import Blueprint, request, jsonify
 from services.chat_service import get_chat_response
-from bson import ObjectId
+from utils.db import get_db
+from bson import ObjectId, json_util
 
 chat_bp = Blueprint("chat", __name__)
 
+# --- UPDATED CHAT ROUTE ---
+# The path is now explicit: "/chat"
 @chat_bp.route("/chat", methods=["POST"])
 def chat():
     try:
@@ -18,23 +22,39 @@ def chat():
         if not user_id or not message:
             return jsonify({"error": "user_id and message are required"}), 400
 
-        # Validate user_id format
         try:
             user_id_obj = ObjectId(user_id)
         except:
             return jsonify({"error": "Invalid user_id format"}), 400
 
         response = get_chat_response(user_id_obj, message)
-        return jsonify({
-            "response": response,
-            "user_id": user_id,
-            "message": message
-        })
+        return jsonify({"response": response})
         
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print(f"An error occurred in /chat: {e}")
+        traceback.print_exc() # This will print the full error details
+        return jsonify({"error": "An internal server error occurred"}), 500
 
-# Add a health check endpoint
-@chat_bp.route("/health", methods=["GET"])
-def health_check():
-    return jsonify({"status": "healthy", "service": "chat"})
+# --- UPDATED HISTORY ROUTE ---
+# The path is now explicit: "/chat/history/<user_id>"
+@chat_bp.route("/chat/history/<user_id>", methods=["GET"])
+def get_history(user_id):
+    try:
+        try:
+            user_id_obj = ObjectId(user_id)
+        except:
+            return jsonify({"error": "Invalid user_id format"}), 400
+
+        db = get_db()
+        # Fetch the last 20 chats, sorted by newest first
+        chats = db.chats.find({"user_id": user_id_obj}).sort("_id", -1).limit(20)
+        
+        # Convert chats to a list and then to JSON
+        history = json_util.loads(json_util.dumps(list(chats)))
+
+        return jsonify({"history": history})
+
+    except Exception as e:
+        print(f"An error occurred in /chat/history: {e}")
+        traceback.print_exc() # This will print the full error details
+        return jsonify({"error": "An internal server error occurred"}), 500
