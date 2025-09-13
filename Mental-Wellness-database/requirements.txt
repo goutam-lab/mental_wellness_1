@@ -1,0 +1,10 @@
+langchain
+flask
+pymongo
+python-dotenv
+pinecone
+llm
+langchain-google-genai
+Flask-Cors
+pydantic[email]
+
