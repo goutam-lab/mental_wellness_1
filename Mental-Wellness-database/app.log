@@ -1,0 +1,64 @@
+2025-09-16 00:43:44,770 - __main__ - INFO - 🔍 Checking if required files exist...
+2025-09-16 00:43:44,771 - __main__ - INFO - ✅ Found: utils/db.py
+2025-09-16 00:43:44,773 - __main__ - INFO - ✅ Found: routes/auth_routes.py
+2025-09-16 00:43:44,774 - __main__ - INFO - ✅ Found: routes/chat_routes.py
+2025-09-16 00:43:44,775 - __main__ - INFO - ✅ Found: routes/personality_routes.py
+2025-09-16 00:43:44,776 - __main__ - INFO - ✅ Found: services/personality_service.py
+2025-09-16 00:43:44,777 - __main__ - INFO - ✅ Found: routes/task_routes.py
+2025-09-16 00:43:44,778 - __main__ - INFO - ✅ Found: services/task_service.py
+2025-09-16 00:43:44,779 - __main__ - INFO - ✅ Found: models/task.py
+2025-09-16 00:43:44,781 - __main__ - INFO - ✅ Found: questions/personality_questions.json
+2025-09-16 00:43:44,782 - __main__ - INFO - ✅ Found: routes/community_routes.py
+2025-09-16 00:43:44,783 - __main__ - INFO - ✅ Found: services/community_service.py
+2025-09-16 00:43:44,784 - __main__ - INFO - ✅ Found: models/post.py
+2025-09-16 00:43:44,786 - __main__ - INFO - ✅ Found: routes/safety_routes.py
+2025-09-16 00:43:44,786 - __main__ - INFO - ✅ Found: services/safety_service.py
+2025-09-16 00:43:44,787 - __main__ - INFO - ✅ Found: models/risk_event.py
+2025-09-16 00:43:44,788 - __main__ - INFO - 🔄 Attempting to import utils.db...
+2025-09-16 00:43:53,720 - __main__ - ERROR - ❌ MongoDB utils not found: cannot import name 'init_db' from 'utils.db' (C:\Users\gouta\OneDrive\Desktop\mentall_wellness\backend\Mental-Wellness-database\utils\db.py)
+2025-09-16 00:43:53,720 - __main__ - INFO - 🔄 Testing task service import...
+2025-09-16 00:43:55,870 - __main__ - INFO - ✅ Task service imported successfully
+2025-09-16 00:43:55,870 - __main__ - INFO - ✅ task_service.create_task() function exists
+2025-09-16 00:43:55,870 - __main__ - INFO - ✅ task_service.get_all_tasks() function exists
+2025-09-16 00:43:55,871 - __main__ - INFO - ✅ task_service.get_task_by_id() function exists
+2025-09-16 00:43:55,871 - __main__ - INFO - ✅ task_service.update_task() function exists
+2025-09-16 00:43:55,871 - __main__ - INFO - ✅ task_service.delete_task() function exists
+2025-09-16 00:43:55,871 - __main__ - INFO - 🔄 Attempting to import auth_routes...
+2025-09-16 00:43:56,061 - __main__ - INFO - ✅ Auth routes registered successfully
+2025-09-16 00:43:56,061 - __main__ - INFO - 🔄 Attempting to import chat_routes...
+2025-09-16 00:44:27,586 - __main__ - INFO - ✅ Chat routes registered successfully
+2025-09-16 00:44:27,587 - __main__ - INFO - 🔄 Attempting to import personality_routes...
+2025-09-16 00:44:27,671 - __main__ - INFO - ✅ Personality routes registered successfully
+2025-09-16 00:44:27,675 - __main__ - INFO - 🔄 Attempting to import task_routes...
+2025-09-16 00:44:27,724 - __main__ - INFO - ✅ Task routes registered successfully
+2025-09-16 00:44:27,728 - __main__ - INFO - 🔄 Attempting to import community_routes...
+2025-09-16 00:44:27,819 - __main__ - INFO - ✅ Community routes registered successfully
+2025-09-16 00:44:27,820 - __main__ - INFO - 🔄 Attempting to import safety_routes...
+2025-09-16 00:44:27,895 - __main__ - INFO - ✅ Safety routes registered successfully
+2025-09-16 00:44:27,899 - __main__ - INFO - 🚀 Starting Mental Wellness Backend...
+2025-09-16 00:44:27,900 - __main__ - INFO - 📁 Directory structure:
+2025-09-16 00:44:27,901 - __main__ - INFO - 📂 utils/: ['auth.py', 'db.py', 'moderation.py', 'serializer.py', '__init__.py']
+2025-09-16 00:44:27,901 - __main__ - INFO - 📂 routes/: ['auth_routes.py', 'chat_api.py', 'chat_routes.py', 'community_routes.py', 'game_routes.py', 'personality_routes.py', 'safety_routes.py', 'task_routes.py', '__init__.py']
+2025-09-16 00:44:27,902 - __main__ - INFO - 📂 services/: ['chat_service.py', 'community_service.py', 'community_service_fallback.py', 'embedding.py', 'game_service.py', 'ingest_data.py', 'personality_service.py', 'safety_service.py', 'task_service.py', '__init__.py']
+2025-09-16 00:44:27,903 - __main__ - INFO - 📂 models/: ['chat.py', 'conversation.py', 'game.py', 'personality.py', 'post.py', 'risk_event.py', 'task.py', 'user.py', '__init__.py']
+2025-09-16 00:44:28,024 - __main__ - INFO - 📊 MongoDB collections: ['users', 'conversations', 'chats', 'tasks']
+2025-09-16 00:44:28,025 - __main__ - INFO - 🌐 Server starting on http://0.0.0.0:5000
+2025-09-16 00:44:28,515 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.9.29.99:5000
+2025-09-16 00:44:28,516 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-16 00:44:47,290 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 00:44:47] "OPTIONS /api/login HTTP/1.1" 200 -
+2025-09-16 00:44:48,154 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 00:44:48] "POST /api/login HTTP/1.1" 200 -
+2025-09-16 00:44:50,766 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 00:44:50] "GET /api/chat/history/68c5c8510f91293467735926 HTTP/1.1" 200 -
+2025-09-16 00:44:51,069 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 00:44:51] "GET /api/chat/history/68c5c8510f91293467735926 HTTP/1.1" 200 -
+2025-09-16 00:45:06,619 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 00:45:06] "OPTIONS /api/chat HTTP/1.1" 200 -
+2025-09-16 00:45:07,654 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/embeddings "HTTP/1.1 200 OK"
+2025-09-16 00:45:07,960 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/embeddings "HTTP/1.1 200 OK"
+2025-09-16 00:45:10,419 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-16 00:45:10,530 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 00:45:10] "POST /api/chat HTTP/1.1" 200 -
+2025-09-16 00:45:11,545 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/embeddings "HTTP/1.1 200 OK"
+2025-09-16 00:45:14,823 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-09-16 00:45:15,086 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 00:45:15] "GET /api/conversation/0b84bb67-cbdb-453e-a04f-86ca4d2b7fbe HTTP/1.1" 200 -
+2025-09-16 00:45:15,144 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 00:45:15] "GET /api/conversation/0b84bb67-cbdb-453e-a04f-86ca4d2b7fbe HTTP/1.1" 200 -
+2025-09-16 00:45:15,744 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 00:45:15] "GET /api/chat/history/68c5c8510f91293467735926 HTTP/1.1" 200 -
