@@ -19,14 +19,14 @@ def signup():
         return jsonify({"error": "A user with this email already exists"}), 409
 
     hashed_password = generate_password_hash(data["password"], method='pbkdf2:sha256')
-
+    
     new_user = User(
         username=data.get("email").split("@")[0],
         email=data["email"],
         password_hash=hashed_password,
         full_name=f"{data.get('firstname', '')} {data.get('lastname', '')}".strip()
     )
-
+    
     user_dict = new_user.model_dump(by_alias=True, exclude=["id"])
     result = db.users.insert_one(user_dict)
 
@@ -60,7 +60,7 @@ def search_users():
 
     # Case-insensitive regex for broader matching
     regex = re.compile(f".*{re.escape(query)}.*", re.IGNORECASE)
-
+    
     # Search in both username and full_name fields
     users_cursor = db.users.find({
         "$or": [
@@ -75,7 +75,7 @@ def search_users():
             "_id": str(user["_id"]),
             "username": user.get("username"),
             "full_name": user.get("full_name", ""),
-            "avatar": user.get("avatar", "/placeholder-user.jpg")
+            "avatar": user.get("avatar", "/placeholder-user.jpg") # Provide a default avatar
         })
-
+        
     return jsonify({"users": users})

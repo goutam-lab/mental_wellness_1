@@ -7,6 +7,4 @@ llm
 langchain-google-genai
 Flask-Cors
 pydantic[email]
-eventlet
-Flask-SocketIO
-werkzeug
+

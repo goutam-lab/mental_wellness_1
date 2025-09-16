@@ -1,67 +1,56 @@
-2025-09-16 11:13:24,387 - __main__ - INFO - 🔍 Checking if required files exist...
-2025-09-16 11:13:24,387 - __main__ - INFO - ✅ Found: utils/db.py
-2025-09-16 11:13:24,388 - __main__ - INFO - ✅ Found: routes/auth_routes.py
-2025-09-16 11:13:24,388 - __main__ - INFO - ✅ Found: routes/chat_routes.py
-2025-09-16 11:13:24,389 - __main__ - INFO - ✅ Found: routes/personality_routes.py
-2025-09-16 11:13:24,390 - __main__ - INFO - ✅ Found: services/personality_service.py
-2025-09-16 11:13:24,391 - __main__ - INFO - ✅ Found: routes/task_routes.py
-2025-09-16 11:13:24,391 - __main__ - INFO - ✅ Found: services/task_service.py
-2025-09-16 11:13:24,391 - __main__ - INFO - ✅ Found: models/task.py
-2025-09-16 11:13:24,392 - __main__ - INFO - ✅ Found: questions/personality_questions.json
-2025-09-16 11:13:24,392 - __main__ - INFO - ✅ Found: routes/community_routes.py
-2025-09-16 11:13:24,393 - __main__ - INFO - ✅ Found: services/community_service.py
-2025-09-16 11:13:24,393 - __main__ - INFO - ✅ Found: models/post.py
-2025-09-16 11:13:24,393 - __main__ - INFO - ✅ Found: routes/safety_routes.py
-2025-09-16 11:13:24,394 - __main__ - INFO - ✅ Found: services/safety_service.py
-2025-09-16 11:13:24,394 - __main__ - INFO - ✅ Found: models/risk_event.py
-2025-09-16 11:13:24,394 - __main__ - INFO - 🔄 Attempting to import utils.db...
-2025-09-16 11:13:29,556 - __main__ - ERROR - ❌ MongoDB utils not found: cannot import name 'init_db' from 'utils.db' (C:\Users\gouta\OneDrive\Desktop\mentall_wellness\backend\Mental-Wellness-database\utils\db.py)
-2025-09-16 11:13:29,556 - __main__ - INFO - 🔄 Testing task service import...
-2025-09-16 11:13:30,671 - __main__ - INFO - ✅ Task service imported successfully
-2025-09-16 11:13:30,671 - __main__ - INFO - ✅ task_service.create_task() function exists
-2025-09-16 11:13:30,671 - __main__ - INFO - ✅ task_service.get_all_tasks() function exists
-2025-09-16 11:13:30,671 - __main__ - INFO - ✅ task_service.get_task_by_id() function exists
-2025-09-16 11:13:30,671 - __main__ - INFO - ✅ task_service.update_task() function exists
-2025-09-16 11:13:30,672 - __main__ - INFO - ✅ task_service.delete_task() function exists
-2025-09-16 11:13:30,672 - __main__ - INFO - 🔄 Attempting to import auth_routes...
-2025-09-16 11:13:30,812 - __main__ - INFO - ✅ Auth routes registered successfully
-2025-09-16 11:13:30,813 - __main__ - INFO - 🔄 Attempting to import chat_routes...
-2025-09-16 11:13:48,226 - __main__ - INFO - ✅ Chat routes registered successfully
-2025-09-16 11:13:48,226 - __main__ - INFO - 🔄 Attempting to import personality_routes...
-2025-09-16 11:13:48,253 - __main__ - INFO - ✅ Personality routes registered successfully
-2025-09-16 11:13:48,254 - __main__ - INFO - 🔄 Attempting to import task_routes...
-2025-09-16 11:13:48,265 - __main__ - INFO - ✅ Task routes registered successfully
-2025-09-16 11:13:48,266 - __main__ - INFO - 🔄 Attempting to import community_routes...
-2025-09-16 11:13:48,324 - __main__ - INFO - ✅ Community routes registered successfully
-2025-09-16 11:13:48,324 - __main__ - INFO - 🔄 Attempting to import safety_routes...
-2025-09-16 11:13:48,350 - __main__ - INFO - ✅ Safety routes registered successfully
-2025-09-16 11:13:48,351 - __main__ - INFO - 🚀 Starting Mental Wellness Backend...
-2025-09-16 11:13:48,351 - __main__ - INFO - 📁 Directory structure:
-2025-09-16 11:13:48,352 - __main__ - INFO - 📂 utils/: ['auth.py', 'db.py', 'moderation.py', 'serializer.py', '__init__.py']
-2025-09-16 11:13:48,352 - __main__ - INFO - 📂 routes/: ['auth_routes.py', 'chat_api.py', 'chat_routes.py', 'community_routes.py', 'game_routes.py', 'personality_routes.py', 'safety_routes.py', 'task_routes.py', '__init__.py']
-2025-09-16 11:13:48,353 - __main__ - INFO - 📂 services/: ['chat_service.py', 'community_service.py', 'community_service_fallback.py', 'embedding.py', 'game_service.py', 'ingest_data.py', 'personality_service.py', 'safety_service.py', 'task_service.py', '__init__.py']
-2025-09-16 11:13:48,353 - __main__ - INFO - 📂 models/: ['chat.py', 'conversation.py', 'game.py', 'personality.py', 'post.py', 'risk_event.py', 'task.py', 'user.py', '__init__.py']
-2025-09-16 11:13:48,497 - __main__ - INFO - 📊 MongoDB collections: ['users', 'risk_events', 'conversations', 'posts', 'chats', 'tasks']
-2025-09-16 11:13:48,498 - __main__ - INFO - 🌐 Server starting on http://0.0.0.0:5000
-2025-09-16 11:13:48,691 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2025-09-16 17:30:03,134 - __main__ - INFO - 🔍 Checking if required files exist...
+2025-09-16 17:30:03,134 - __main__ - INFO - ✅ Found: utils/db.py
+2025-09-16 17:30:03,135 - __main__ - INFO - ✅ Found: routes/auth_routes.py
+2025-09-16 17:30:03,135 - __main__ - INFO - ✅ Found: routes/chat_routes.py
+2025-09-16 17:30:03,136 - __main__ - INFO - ✅ Found: routes/personality_routes.py
+2025-09-16 17:30:03,137 - __main__ - INFO - ✅ Found: services/personality_service.py
+2025-09-16 17:30:03,137 - __main__ - INFO - ✅ Found: routes/task_routes.py
+2025-09-16 17:30:03,137 - __main__ - INFO - ✅ Found: services/task_service.py
+2025-09-16 17:30:03,138 - __main__ - INFO - ✅ Found: models/task.py
+2025-09-16 17:30:03,139 - __main__ - INFO - ✅ Found: questions/personality_questions.json
+2025-09-16 17:30:03,139 - __main__ - INFO - ✅ Found: routes/community_routes.py
+2025-09-16 17:30:03,140 - __main__ - INFO - ✅ Found: services/community_service.py
+2025-09-16 17:30:03,140 - __main__ - INFO - ✅ Found: models/post.py
+2025-09-16 17:30:03,141 - __main__ - INFO - ✅ Found: routes/safety_routes.py
+2025-09-16 17:30:03,142 - __main__ - INFO - ✅ Found: services/safety_service.py
+2025-09-16 17:30:03,142 - __main__ - INFO - ✅ Found: models/risk_event.py
+2025-09-16 17:30:03,143 - __main__ - INFO - 🔄 Attempting to import utils.db...
+2025-09-16 17:30:11,685 - __main__ - ERROR - ❌ MongoDB utils not found: cannot import name 'init_db' from 'utils.db' (C:\Users\gouta\OneDrive\Desktop\mentall_wellness\backend\Mental-Wellness-database\utils\db.py)
+2025-09-16 17:30:11,685 - __main__ - INFO - 🔄 Testing task service import...
+2025-09-16 17:30:13,214 - __main__ - INFO - ✅ Task service imported successfully
+2025-09-16 17:30:13,215 - __main__ - INFO - ✅ task_service.create_task() function exists
+2025-09-16 17:30:13,215 - __main__ - INFO - ✅ task_service.get_all_tasks() function exists
+2025-09-16 17:30:13,215 - __main__ - INFO - ✅ task_service.get_task_by_id() function exists
+2025-09-16 17:30:13,216 - __main__ - INFO - ✅ task_service.update_task() function exists
+2025-09-16 17:30:13,216 - __main__ - INFO - ✅ task_service.delete_task() function exists
+2025-09-16 17:30:13,216 - __main__ - INFO - 🔄 Attempting to import auth_routes...
+2025-09-16 17:30:13,358 - __main__ - INFO - ✅ Auth routes registered successfully
+2025-09-16 17:30:13,359 - __main__ - INFO - 🔄 Attempting to import chat_routes...
+2025-09-16 17:30:47,381 - __main__ - INFO - ✅ Chat routes registered successfully
+2025-09-16 17:30:47,382 - __main__ - INFO - 🔄 Attempting to import personality_routes...
+2025-09-16 17:30:47,423 - __main__ - INFO - ✅ Personality routes registered successfully
+2025-09-16 17:30:47,424 - __main__ - INFO - 🔄 Attempting to import task_routes...
+2025-09-16 17:30:47,451 - __main__ - INFO - ✅ Task routes registered successfully
+2025-09-16 17:30:47,451 - __main__ - INFO - 🔄 Attempting to import community_routes...
+2025-09-16 17:30:47,513 - __main__ - INFO - ✅ Community routes registered successfully
+2025-09-16 17:30:47,514 - __main__ - INFO - 🔄 Attempting to import safety_routes...
+2025-09-16 17:30:47,565 - __main__ - INFO - ✅ Safety routes registered successfully
+2025-09-16 17:30:47,568 - __main__ - INFO - 🚀 Starting Mental Wellness Backend...
+2025-09-16 17:30:47,569 - __main__ - INFO - 📁 Directory structure:
+2025-09-16 17:30:47,570 - __main__ - INFO - 📂 utils/: ['auth.py', 'db.py', 'moderation.py', 'serializer.py', '__init__.py']
+2025-09-16 17:30:47,571 - __main__ - INFO - 📂 routes/: ['auth_routes.py', 'chat_api.py', 'chat_routes.py', 'community_routes.py', 'game_routes.py', 'personality_routes.py', 'safety_routes.py', 'task_routes.py', '__init__.py']
+2025-09-16 17:30:47,572 - __main__ - INFO - 📂 services/: ['chat_service.py', 'community_service.py', 'community_service_fallback.py', 'embedding.py', 'game_service.py', 'ingest_data.py', 'personality_service.py', 'safety_service.py', 'task_service.py', '__init__.py']
+2025-09-16 17:30:47,573 - __main__ - INFO - 📂 models/: ['chat.py', 'conversation.py', 'game.py', 'personality.py', 'post.py', 'risk_event.py', 'task.py', 'user.py', '__init__.py']
+2025-09-16 17:30:47,726 - __main__ - INFO - 📊 MongoDB collections: ['users', 'risk_events', 'conversations', 'posts', 'chats', 'tasks']
+2025-09-16 17:30:47,726 - __main__ - INFO - 🌐 Server starting on http://0.0.0.0:5000
+2025-09-16 17:30:48,101 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
  * Running on http://10.9.29.99:5000
-2025-09-16 11:13:48,692 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-09-16 11:15:22,585 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:15:22] "OPTIONS /api/login HTTP/1.1" 200 -
-2025-09-16 11:15:23,474 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:15:23] "POST /api/login HTTP/1.1" 200 -
-2025-09-16 11:15:25,636 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:15:25] "GET /api/chat/history/68c5c8510f91293467735926 HTTP/1.1" 200 -
-2025-09-16 11:15:25,904 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:15:25] "GET /api/chat/history/68c5c8510f91293467735926 HTTP/1.1" 200 -
-2025-09-16 11:15:43,597 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:15:43] "GET /api/community/posts HTTP/1.1" 200 -
-2025-09-16 11:15:43,700 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:15:43] "GET /api/community/posts HTTP/1.1" 200 -
-2025-09-16 11:16:23,903 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:16:23] "OPTIONS /api/community/posts HTTP/1.1" 200 -
-2025-09-16 11:16:24,044 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:16:24] "[35m[1mPOST /api/community/posts HTTP/1.1[0m" 201 -
-2025-09-16 11:16:24,148 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:16:24] "GET /api/community/posts HTTP/1.1" 200 -
-2025-09-16 11:16:26,912 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:16:26] "GET /api/chat/history/68c5c8510f91293467735926 HTTP/1.1" 200 -
-2025-09-16 11:16:27,016 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:16:27] "GET /api/chat/history/68c5c8510f91293467735926 HTTP/1.1" 200 -
-2025-09-16 11:16:31,111 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:16:31] "GET /api/community/posts HTTP/1.1" 200 -
-2025-09-16 11:16:31,213 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:16:31] "GET /api/community/posts HTTP/1.1" 200 -
-2025-09-16 11:16:34,898 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:16:34] "GET /api/community/posts HTTP/1.1" 200 -
-2025-09-16 11:16:35,002 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:16:35] "GET /api/community/posts HTTP/1.1" 200 -
-2025-09-16 11:31:57,055 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:31:57] "GET /api/community/posts HTTP/1.1" 200 -
-2025-09-16 11:31:57,107 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 11:31:57] "GET /api/community/posts HTTP/1.1" 200 -
+2025-09-16 17:30:48,102 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-16 17:30:56,096 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 17:30:56] "OPTIONS /api/login HTTP/1.1" 200 -
+2025-09-16 17:30:56,690 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 17:30:56] "POST /api/login HTTP/1.1" 200 -
+2025-09-16 17:30:57,042 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 17:30:57] "GET /api/chat/history/68c5c8510f91293467735926 HTTP/1.1" 200 -
+2025-09-16 17:30:57,145 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 17:30:57] "GET /api/chat/history/68c5c8510f91293467735926 HTTP/1.1" 200 -
+2025-09-16 17:31:06,455 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 17:31:06] "[35m[1mGET /api/community/posts HTTP/1.1[0m" 500 -
+2025-09-16 17:31:06,492 - werkzeug - INFO - 127.0.0.1 - - [16/Sep/2025 17:31:06] "[35m[1mGET /api/community/posts HTTP/1.1[0m" 500 -
