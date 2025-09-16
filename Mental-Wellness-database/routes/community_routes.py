@@ -1,7 +1,9 @@
+# backend/routes/community_routes.py
 from flask import Blueprint, request, jsonify
 from services import community_service
 
 community_bp = Blueprint("community", __name__)
+# The socketio instance will be attached in app.py
 
 @community_bp.route("/posts", methods=["POST"])
 def create_post():
@@ -9,38 +11,31 @@ def create_post():
         data = request.get_json()
         if not data or "user_id" not in data or "content" not in data:
             return jsonify({"status": "error", "message": "Missing required fields"}), 400
-            
+        
         post = community_service.create_post(
             user_id=data.get("user_id"),
             content=data.get("content"),
-            media_url=data.get("media_url")
+            media_url=data.get("media_url"),
+            socketio=getattr(community_bp, 'socketio', None)
         )
+        # The service now handles emitting the event, so we just return the created post
         return jsonify({"status": "success", "post": post}), 201
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
 @community_bp.route("/posts", methods=["GET"])
-def get_posts():
+def get_posts_route():
     try:
         posts = community_service.get_all_posts()
+        # FIX: The 'posts' are already dicts, no need to call .to_dict()
         return jsonify({"status": "success", "posts": posts}), 200
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-@community_bp.route("/posts/<post_id>", methods=["GET"])
-def get_single_post(post_id):
-    try:
-        post = community_service.get_post(post_id)
-        if post:
-            return jsonify({"status": "success", "post": post}), 200
-        return jsonify({"status": "error", "message": "Post not found"}), 404
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
 @community_bp.route("/posts/<post_id>/like", methods=["POST"])
 def like_post(post_id):
     try:
-        post = community_service.like_post(post_id)
+        post = community_service.like_post(post_id, socketio=getattr(community_bp, 'socketio', None))
         if post:
             return jsonify({"status": "success", "post": post}), 200
         return jsonify({"status": "error", "message": "Post not found"}), 404
@@ -54,7 +49,12 @@ def comment_post(post_id):
         if not data or "text" not in data or "user_id" not in data:
             return jsonify({"status": "error", "message": "Missing required fields"}), 400
             
-        post = community_service.add_comment(post_id, data.get("text"), data.get("user_id"))
+        post = community_service.add_comment(
+            post_id, 
+            data.get("text"), 
+            data.get("user_id"), 
+            socketio=getattr(community_bp, 'socketio', None)
+        )
         if post:
             return jsonify({"status": "success", "post": post}), 200
         return jsonify({"status": "error", "message": "Post not found"}), 404

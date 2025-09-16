@@ -1,17 +1,15 @@
+# backend/services/task_service.py
 import os
 import sys
 import logging
 from datetime import datetime
 from typing import Optional, List
 
-# FIX: Add the parent directory to Python path to resolve imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Now import your modules
 from models.task import Task
 from utils.db import get_db
 
-# Set up logging
 logger = logging.getLogger(__name__)
 
 def create_task(data: dict) -> Task:
@@ -19,76 +17,73 @@ def create_task(data: dict) -> Task:
     Create a new task and save it to MongoDB
     """
     try:
-        # Validate required fields
-        if not data or "title" not in data:
-            raise ValueError("Title is required")
-        
-        # Parse due_date if provided
+        if not data or "title" not in data or "user_id" not in data:
+            raise ValueError("Title and user_id are required")
+
         due_date = None
         if data.get("due_date"):
             try:
                 due_date = datetime.fromisoformat(data["due_date"].replace('Z', '+00:00'))
             except ValueError:
                 logger.warning(f"Invalid date format: {data['due_date']}")
-                # Continue without due_date if format is invalid
-        
-        # Create new task
+
         new_task = Task(
+            user_id=data.get("user_id"),
             title=data.get("title"),
             description=data.get("description"),
             category=data.get("category"),
             due_date=due_date
         )
-        
-        # Save to MongoDB
+
         db = get_db()
         task_dict = new_task.to_dict()
-        # Convert datetime objects to strings for MongoDB
         if task_dict.get('created_at'):
-                if hasattr(task_dict['created_at'], 'isoformat'):
-                    task_dict['created_at'] = task_dict['created_at'].isoformat()
+            if hasattr(task_dict['created_at'], 'isoformat'):
+                task_dict['created_at'] = task_dict['created_at'].isoformat()
         if task_dict.get('due_date'):
             if hasattr(task_dict['due_date'], 'isoformat'):
                 task_dict['due_date'] = task_dict['due_date'].isoformat()
-            
-        result = db.tasks.insert_one(task_dict)
+
+        db.tasks.insert_one(task_dict)
         logger.info(f"Task created with ID: {new_task.id}")
         return new_task
-        
+
     except Exception as e:
         logger.error(f"Error creating task: {e}")
         raise
 
-def get_all_tasks() -> List[Task]:
+def get_all_tasks(user_id: Optional[str] = None) -> List[Task]:
     """
-    Get all tasks from MongoDB
+    Get all tasks from MongoDB, optionally filtering by user_id
     """
     try:
         db = get_db()
-        tasks_data = list(db.tasks.find())
-        
+        query = {}
+        if user_id:
+            query["user_id"] = user_id
+        tasks_data = list(db.tasks.find(query))
+
         tasks = []
         for task_data in tasks_data:
             try:
-                # Convert string dates back to datetime objects
                 if task_data.get('created_at'):
                     task_data['created_at'] = datetime.fromisoformat(task_data['created_at'].replace('Z', '+00:00'))
                 if task_data.get('due_date'):
                     task_data['due_date'] = datetime.fromisoformat(task_data['due_date'].replace('Z', '+00:00'))
-                
                 task = Task(**task_data)
                 tasks.append(task)
             except Exception as e:
                 logger.warning(f"Error parsing task data {task_data.get('id')}: {e}")
                 continue
-                
+
         logger.info(f"Retrieved {len(tasks)} tasks from database")
         return tasks
-        
+
     except Exception as e:
         logger.error(f"Error getting all tasks: {e}")
-        return []  # Return empty list instead of crashing
+        return []
 
+# ... (keep the rest of the functions as they are: get_task_by_id, update_task, delete_task, etc.)
 def get_task_by_id(task_id: str) -> Optional[Task]:
     """
     Get a single task by ID from MongoDB

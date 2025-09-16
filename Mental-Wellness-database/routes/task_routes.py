@@ -1,33 +1,28 @@
+# backend/routes/task_routes.py
 from flask import Blueprint, request, jsonify
-from services import task_service  # Fixed import
+from services import task_service
 
 task_bp = Blueprint("tasks", __name__)
 
-# ------------------------
-# Create a new task
-# ------------------------
 @task_bp.route("/tasks", methods=["POST"])
 def create_task_route():
     try:
         data = request.get_json()
-        if not data or "title" not in data:
-            return jsonify({"error": "Title is required"}), 400
-            
-        task = task_service.create_task(data)  # Fixed call
+        if not data or "title" not in data or "user_id" not in data:
+            return jsonify({"error": "Title and user_id are required"}), 400
+
+        task = task_service.create_task(data)
         return jsonify({"task": task.to_dict()}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ------------------------
-# Get all tasks + suggestion
-# ------------------------
 @task_bp.route("/tasks", methods=["GET"])
 def get_tasks_route():
     try:
-        tasks = task_service.get_all_tasks()  # Fixed call
+        user_id = request.args.get("userId")
+        tasks = task_service.get_all_tasks(user_id)
         task_dicts = [task.to_dict() for task in tasks]
 
-        # Wellness suggestion logic
         suggestion = None
         if len(task_dicts) > 5:
             suggestion = "You've got a heavy workload. Take a 5-minute stretch break!"
@@ -40,6 +35,7 @@ def get_tasks_route():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# ... (keep the rest of the routes as they are: get_task_route, update_task_route, delete_task_route)
 # ------------------------
 # Get a single task by ID
 # ------------------------
