@@ -3,6 +3,7 @@ from models.post import Post
 from utils.db import get_db
 from bson.objectid import ObjectId
 from datetime import datetime
+import os
 
 def get_posts_collection():
     """Get the posts collection from MongoDB"""
@@ -132,3 +133,30 @@ def add_comment(post_id, text, user_id, socketio=None):
 def get_post(post_id):
     # ... (keep existing get_post function, but add user population)
     pass
+
+def delete_post(post_id: str, user_id: str, socketio=None):
+    posts_collection = get_posts_collection()
+    oid = ObjectId(post_id)
+    
+    post_to_delete = posts_collection.find_one({"_id": oid, "user_id": ObjectId(user_id)})
+    
+    if not post_to_delete:
+        return False
+
+    result = posts_collection.delete_one({"_id": oid})
+    
+    if result.deleted_count > 0:
+        if post_to_delete.get("media_url"):
+            try:
+                UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'uploads')
+                filename = os.path.basename(post_to_delete["media_url"])
+                file_path = os.path.join(UPLOAD_FOLDER, filename)
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+            except Exception as e:
+                print(f"Error deleting file for post {post_id}: {e}")
+
+        if socketio:
+            socketio.emit('post_deleted', {'post_id': post_id})
+        return True
+    return False

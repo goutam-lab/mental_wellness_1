@@ -3,7 +3,7 @@ import os
 import sys
 import logging
 import codecs
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_socketio import SocketIO
@@ -31,6 +31,8 @@ class MentalWellnessApp:
         self.register_blueprints()
         self.setup_health_routes()
         self.setup_error_handlers()
+        self.setup_static_file_serving()
+
 
     def setup_logging(self):
         """Configure logging settings"""
@@ -113,6 +115,11 @@ class MentalWellnessApp:
         @self.app.errorhandler(500)
         def internal_error(error):
             return jsonify({"success": False, "error": "Internal server error"}), 500
+
+    def setup_static_file_serving(self):
+        @self.app.route('/uploads/<filename>')
+        def uploaded_file(filename):
+            return send_from_directory(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads'), filename)
 
     def run(self):
         """Run the Flask-SocketIO application"""
