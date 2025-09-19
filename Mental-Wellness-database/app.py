@@ -7,7 +7,7 @@ from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_socketio import SocketIO
-
+from routes.friends_routes import friends_bp
 # Load environment variables first
 load_dotenv()
 
@@ -97,6 +97,14 @@ class MentalWellnessApp:
             self.logger.info("✅ Safety routes registered")
         except Exception as e:
             self.logger.error(f"❌ Safety routes registration failed: {e}")
+        
+        # Friends routes
+        try:
+            self.app.register_blueprint(friends_bp, url_prefix="/api/friends")
+            self.initialization_status['friends_routes'] = True
+            self.logger.info("✅ Friends routes registered")
+        except Exception as e:
+            self.logger.error(f"❌ Friends routes registration failed: {e}")
 
     def setup_health_routes(self):
         @self.app.route("/")

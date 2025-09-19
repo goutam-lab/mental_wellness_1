@@ -13,13 +13,11 @@ def get_posts_collection():
 def create_post(user_id, content, media_url=None, socketio=None):
     post = Post(user_id, content, media_url)
     post_dict = post.to_dict()
-    # Ensure user_id is an ObjectId for aggregation
     post_dict['user_id'] = ObjectId(user_id)
 
     posts_collection = get_posts_collection()
     result = posts_collection.insert_one(post_dict)
     
-    # Fetch the newly created post with populated user info to broadcast
     pipeline = [
         {"$match": {"_id": result.inserted_id}},
         {"$lookup": {
@@ -43,7 +41,6 @@ def create_post(user_id, content, media_url=None, socketio=None):
     
     if new_post_agg:
         new_post = new_post_agg[0]
-        # Convert ObjectIds to strings for JSON serialization
         new_post['_id'] = str(new_post['_id'])
         new_post['user_id'] = str(new_post['user_id'])
         new_post['user']['_id'] = str(new_post['user']['_id'])
@@ -82,20 +79,27 @@ def get_all_posts():
         post['user']['_id'] = str(post['user']['_id'])
     return posts
 
-def like_post(post_id, socketio=None):
+def like_post(post_id, user_id, socketio=None):
     posts_collection = get_posts_collection()
     oid = ObjectId(post_id)
-    
-    result = posts_collection.update_one({"_id": oid}, {"$inc": {"likes": 1}})
-    
+    user_oid = ObjectId(user_id)
+
+    post = posts_collection.find_one({"_id": oid})
+    if user_oid in post.get("likes", []):
+        # User has already liked the post, so unlike it
+        result = posts_collection.update_one({"_id": oid}, {"$pull": {"likes": user_oid}})
+    else:
+        # User has not liked the post, so like it
+        result = posts_collection.update_one({"_id": oid}, {"$addToSet": {"likes": user_oid}})
+
     if result.modified_count > 0:
         updated_post = posts_collection.find_one({"_id": oid})
         if updated_post and socketio:
             socketio.emit('post_update', {
                 "post_id": post_id, 
-                "likes": updated_post.get('likes', 0)
+                "likes": len(updated_post.get('likes', []))
             })
-        return get_post(post_id) # Return full post
+        return get_post(post_id)
     return None
 
 def add_comment(post_id, text, user_id, socketio=None):
@@ -112,7 +116,6 @@ def add_comment(post_id, text, user_id, socketio=None):
     result = posts_collection.update_one({"_id": oid}, {"$push": {"comments": comment}})
     
     if result.modified_count > 0:
-        # Fetch comment with user info
         user_info = get_db().users.find_one({"_id": ObjectId(user_id)}, {"password_hash": 0})
         if user_info:
             comment['user'] = {
@@ -127,11 +130,12 @@ def add_comment(post_id, text, user_id, socketio=None):
         if socketio:
             socketio.emit('comment_update', {"post_id": post_id, "comment": comment})
         
-        return get_post(post_id) # Return full post
+        return get_post(post_id)
     return None
 
 def get_post(post_id):
-    # ... (keep existing get_post function, but add user population)
+    # This function is a placeholder for fetching a single post with populated user data
+    # You should implement this function to return a single post by its ID
     pass
 
 def delete_post(post_id: str, user_id: str, socketio=None):

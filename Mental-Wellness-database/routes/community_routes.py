@@ -5,7 +5,6 @@ from werkzeug.utils import secure_filename
 import os
 
 community_bp = Blueprint("community", __name__)
-# The socketio instance will be attached in app.py
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'uploads')
 if not os.path.exists(UPLOAD_FOLDER):
@@ -37,7 +36,6 @@ def create_post():
             media_url=media_url,
             socketio=getattr(community_bp, 'socketio', None)
         )
-        # The service now handles emitting the event, so we just return the created post
         return jsonify({"status": "success", "post": post}), 201
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
@@ -46,7 +44,6 @@ def create_post():
 def get_posts_route():
     try:
         posts = community_service.get_all_posts()
-        # FIX: The 'posts' are already dicts, no need to call .to_dict()
         return jsonify({"status": "success", "posts": posts}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
@@ -54,7 +51,12 @@ def get_posts_route():
 @community_bp.route("/posts/<post_id>/like", methods=["POST"])
 def like_post(post_id):
     try:
-        post = community_service.like_post(post_id, socketio=getattr(community_bp, 'socketio', None))
+        data = request.get_json()
+        user_id = data.get("user_id")
+        if not user_id:
+            return jsonify({"status": "error", "message": "User ID is required to like a post"}), 400
+            
+        post = community_service.like_post(post_id, user_id, socketio=getattr(community_bp, 'socketio', None))
         if post:
             return jsonify({"status": "success", "post": post}), 200
         return jsonify({"status": "error", "message": "Post not found"}), 404
@@ -67,12 +69,13 @@ def comment_post(post_id):
         data = request.get_json()
         if not data or "text" not in data or "user_id" not in data:
             return jsonify({"status": "error", "message": "Missing required fields"}), 400
-            
+        
+        socketio = getattr(community_bp, 'socketio', None)
         post = community_service.add_comment(
             post_id, 
             data.get("text"), 
             data.get("user_id"), 
-            socketio=getattr(community_bp, 'socketio', None)
+            socketio
         )
         if post:
             return jsonify({"status": "success", "post": post}), 200
