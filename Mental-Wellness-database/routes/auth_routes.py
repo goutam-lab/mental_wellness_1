@@ -1,10 +1,10 @@
-# backend/routes/auth_routes.py
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from models.user import User
+# Remove the User model import from here, we will create a dict directly
 from utils.db import get_db
 from bson import ObjectId
 import re
+from datetime import datetime # Import datetime
 
 auth_bp = Blueprint("auth", __name__)
 db = get_db()
@@ -20,19 +20,25 @@ def signup():
 
     hashed_password = generate_password_hash(data["password"], method='pbkdf2:sha256')
     
-    new_user = User(
-        username=data.get("email").split("@")[0],
-        email=data["email"],
-        password_hash=hashed_password,
-        full_name=f"{data.get('firstname', '')} {data.get('lastname', '')}".strip()
-    )
+    # Create a dictionary for the new user instead of using the Pydantic model here
+    new_user_data = {
+        "username": data.get("email").split("@")[0],
+        "email": data["email"],
+        "password_hash": hashed_password,
+        "full_name": f"{data.get('firstname', '')} {data.get('lastname', '')}".strip(),
+        # Add default values for other fields
+        "friends": [],
+        "sent_friend_requests": [],
+        "received_friend_requests": [],
+        "created_at": datetime.utcnow(),
+        "updated_at": datetime.utcnow()
+    }
     
-    user_dict = new_user.model_dump(by_alias=True, exclude=["id"])
-    result = db.users.insert_one(user_dict)
+    result = db.users.insert_one(new_user_data)
 
     return jsonify({
         "message": "User created successfully",
-        "userId": str(result.inserted_id)
+        "userId": str(result.inserted_id) # This is now a proper ObjectId
     }), 201
 
 @auth_bp.route("/login", methods=["POST"])
@@ -51,6 +57,18 @@ def login():
         "userId": str(user["_id"])
     }), 200
 
+@auth_bp.route("/user/<user_id>", methods=["GET"])
+def get_user_profile(user_id):
+    """Fetch a single user's profile by their ID."""
+    try:
+        user = db.users.find_one({"_id": ObjectId(user_id)}, {"password_hash": 0})
+        if user:
+            user["_id"] = str(user["_id"])
+            return jsonify(user)
+        return jsonify({"error": "User not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @auth_bp.route("/users/search", methods=["GET"])
 def search_users():
     """Search for users by username or full_name"""
@@ -58,10 +76,8 @@ def search_users():
     if not query or len(query) < 2:
         return jsonify({"users": []})
 
-    # Case-insensitive regex for broader matching
     regex = re.compile(f".*{re.escape(query)}.*", re.IGNORECASE)
     
-    # Search in both username and full_name fields
     users_cursor = db.users.find({
         "$or": [
             {"username": {"$regex": regex}},
@@ -75,7 +91,8 @@ def search_users():
             "_id": str(user["_id"]),
             "username": user.get("username"),
             "full_name": user.get("full_name", ""),
-            "avatar": user.get("avatar", "/placeholder-user.jpg") # Provide a default avatar
+            "avatar": user.get("avatar", "/placeholder-user.jpg")
         })
         
     return jsonify({"users": users})
+

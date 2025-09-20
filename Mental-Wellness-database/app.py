@@ -8,6 +8,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_socketio import SocketIO
 from routes.friends_routes import friends_bp
+from routes.home_routes import home_bp
+from routes.task_routes import task_bp
 # Load environment variables first
 load_dotenv()
 
@@ -97,8 +99,25 @@ class MentalWellnessApp:
             self.logger.info("✅ Safety routes registered")
         except Exception as e:
             self.logger.error(f"❌ Safety routes registration failed: {e}")
+
+        # Register the new home routes
         
-        # Friends routes
+        try:
+            self.app.register_blueprint(home_bp, url_prefix="/api")
+            self.initialization_status['home_routes'] = True
+            self.logger.info("✅ Home routes registered")
+        except Exception as e:
+            self.logger.error(f"❌ Home routes registration failed: {e}")
+
+        # Register the task routes
+        try:
+            self.app.register_blueprint(task_bp, url_prefix="/api")
+            self.initialization_status['task_routes'] = True
+            self.logger.info("✅ Task routes registered")
+        except Exception as e:
+            self.logger.error(f"❌ Task routes registration failed: {e}")
+
+        # Register the friends routes
         try:
             self.app.register_blueprint(friends_bp, url_prefix="/api/friends")
             self.initialization_status['friends_routes'] = True

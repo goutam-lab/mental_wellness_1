@@ -18,6 +18,10 @@ class User(BaseModel):
     received_friend_requests: List[str] = []
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+    
+    # 👇 New fields for the streak feature
+    streak: int = 0
+    last_task_completion_date: Optional[datetime] = None
 
     class Config:
         arbitrary_types_allowed = True
